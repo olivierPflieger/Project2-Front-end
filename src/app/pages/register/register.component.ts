@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../shared/material.module';
 import { UserService } from '../../core/service/user.service';
 import { Register } from '../../core/models/Register';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -20,6 +20,8 @@ export class RegisterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   registerForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group(
@@ -51,8 +53,8 @@ export class RegisterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(
       () => {
-        alert('SUCCESS!! :-)');
-        // TODO : router l'utilisateur vers la page de login
+        //alert('SUCCESS!! :-)');
+        this.router.navigate(['/login']);
       },
     );
   }

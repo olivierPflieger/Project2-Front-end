@@ -1,7 +1,11 @@
+<div>
+    <a routerLink="/students">Back to list</a>
+</div>
+
 <div class="card m-3">
-  <h5 class="card-header">Registration Form</h5>
+  <h5 class="card-header">Student Form</h5>
   <div class="card-body">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group col-5">
           <label>First Name</label>
@@ -36,42 +40,14 @@
           }
         </div>
       </div>
-      <div class="form-group">
-        <label>Login</label>
-        <input
-          type="text"
-          formControlName="login"
-          class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && form['login'].errors }"
-        />
-        @if (submitted && form['login'].errors) {
-          <div class="invalid-feedback">
-            @if (form['login'].errors?.['required']) {
-              <div>Login is required</div>
-            }
-          </div>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          type="text"
-          formControlName="password"
-          class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && form['password'].errors }"
-        />
-        @if (submitted && form['password'].errors) {
-          <div class="invalid-feedback">
-            @if (form['password'].errors?.['required']) {
-              <div>password is required</div>
-            }
-          </div>
-        }
-      </div>
+      
       <div class="text-center">
-        <button class="btn btn-primary mr-1">Register</button>
-        <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/">
+        
+        <button class="btn btn-primary mr-1">
+            {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+        
+        <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/students">
           Cancel
         </button>
       </div>

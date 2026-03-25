@@ -1,0 +1,14 @@
+<div>
+    <a routerLink="/">Home</a>
+</div>
+
+<a [routerLink]="['/students/new']">Create Student</a>
+
+<li *ngFor="let student of students">
+  {{ student.firstName }} {{ student.lastName }}
+
+  <a [routerLink]="['/students', student.id, 'details']"> Details </a>
+  <a [routerLink]="['/students', student.id, 'edit']"> Edit </a>
+  <a href="#" (click)="confirmDelete(student.id, $event)">Delete</a>
+
+</li>

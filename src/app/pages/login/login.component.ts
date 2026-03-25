@@ -6,7 +6,7 @@ import { Login } from '../../core/models/Login';
 import { LoginService } from '../../core/service/login/login.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -15,12 +15,15 @@ import { RouterLink } from "@angular/router";
   standalone: true,
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent implements OnInit {  
   private loginService = inject(LoginService);
   private formBuilder = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
   loginForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group(
@@ -51,7 +54,8 @@ export class LoginComponent implements OnInit {
           const token = res.body?.token.toString();
           if (token) {
             this.loginService.setToken(token);
-            alert ('User correctly authenticated');
+            this.loginService.setUserName(loginUser.login);
+            this.router.navigate(['']);
           } else {
             alert ('The returned token is empty !');            
           }                    

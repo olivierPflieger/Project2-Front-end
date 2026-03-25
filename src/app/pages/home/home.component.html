@@ -1,10 +1,19 @@
-<h2>Bienvenue dans EtuBibliothèque</h2>
+<h2>EtuBibliothèque</h2>
+<h3 *ngIf="loginService.isAuthenticated()">Welcome, {{ loginService.getUserName() }}</h3>
+<h3 *ngIf="!loginService.isAuthenticated()">Welcome</h3>
 
 <div>
-    <a routerLink="/login">Se connecter</a>
+    <a *ngIf="!loginService.isAuthenticated()" routerLink="/login">Login</a>
+</div>
+
+<button *ngIf="loginService.isAuthenticated()" (click)="logout()">
+  Logout
+</button>
+
+<div>
+    <a routerLink="/register">Register a new agent</a>
 </div>
 
 <div>
-    <a routerLink="/register">Créer un nouvel agent utilisateur</a>
+    <a routerLink="/students">Manage students</a>
 </div>
-

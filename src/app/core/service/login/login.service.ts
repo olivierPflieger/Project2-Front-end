@@ -11,6 +11,7 @@ export class LoginService {
   constructor(private httpClient: HttpClient) { }
   
   private readonly ID_TOKEN = 'id_token';
+  private readonly USERNAME = 'userName';
 
   login(loginUser: Login): Observable<HttpResponse<TokenResponse>> {
     return this.httpClient.post<TokenResponse>('/api/login', loginUser, { observe: 'response' })     
@@ -18,5 +19,29 @@ export class LoginService {
 
   public setToken(token: string): void {
     localStorage.setItem(this.ID_TOKEN, token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.ID_TOKEN);
+  }
+
+  public setUserName(userName: string): void {
+    localStorage.setItem(this.USERNAME, userName);
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem(this.USERNAME);
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false
+    } else { return true};
+  }
+
+  logout() {
+    localStorage.removeItem(this.ID_TOKEN);
+    localStorage.removeItem(this.USERNAME);
   }
 }
