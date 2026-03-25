@@ -1,56 +1,58 @@
-<div>
-    <a routerLink="/students">Back to list</a>
-</div>
-
-<div class="card m-3">
-  <h5 class="card-header">Student Form</h5>
-  <div class="card-body">
-    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-      <div class="form-row">
-        <div class="form-group col-5">
-          <label>First Name</label>
-          <input
-            type="text"
-            formControlName="firstName"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && form['firstName'].errors }"
-          />
-          @if (submitted && form['firstName'].errors) {
-            <div class="invalid-feedback">
-              @if (form['firstName'].errors?.['required']) {
-                <div>First Name is required</div>
-              }
-            </div>
-          }
+<div class="container mt-4">
+ 
+  <div class="card m-3">
+    <h5 class="card-header">
+      {{ isEditMode ? 'Edit a student' : 'Create a student' }}
+    </h5>
+    <div class="card-body">
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group col-5">
+            <label>First Name</label>
+            <input
+              type="text"
+              formControlName="firstName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form['firstName'].errors }"
+            />
+            @if (submitted && form['firstName'].errors) {
+              <div class="invalid-feedback">
+                @if (form['firstName'].errors?.['required']) {
+                  <div>First Name is required</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group col-5">
+            <label>Last Name</label>
+            <input
+              type="text"
+              formControlName="lastName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form['lastName'].errors }"
+            />
+            @if (submitted && form['lastName'].errors) {
+              <div class="invalid-feedback">
+                @if (form['lastName'].errors?.['required']) {
+                  <div>Last Name is required</div>
+                }
+              </div>
+            }
+          </div>
         </div>
-        <div class="form-group col-5">
-          <label>Last Name</label>
-          <input
-            type="text"
-            formControlName="lastName"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && form['lastName'].errors }"
-          />
-          @if (submitted && form['lastName'].errors) {
-            <div class="invalid-feedback">
-              @if (form['lastName'].errors?.['required']) {
-                <div>Last Name is required</div>
-              }
-            </div>
-          }
+        
+        <div class="text-center">
+          
+          <button class="btn btn-primary mr-1">
+              {{ isEditMode ? 'Update' : 'Create' }}
+          </button>
+          
+          <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/students">
+            Cancel
+          </button>
         </div>
-      </div>
-      
-      <div class="text-center">
-        
-        <button class="btn btn-primary mr-1">
-            {{ isEditMode ? 'Update' : 'Create' }}
-        </button>
-        
-        <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/students">
-          Cancel
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+
 </div>

@@ -1,19 +1,29 @@
-<h2>EtuBibliothèque</h2>
-<h3 *ngIf="loginService.isAuthenticated()">Welcome, {{ loginService.getUserName() }}</h3>
-<h3 *ngIf="!loginService.isAuthenticated()">Welcome</h3>
+<div class="container mt-4 text-center">
 
-<div>
-    <a *ngIf="!loginService.isAuthenticated()" routerLink="/login">Login</a>
-</div>
+  <h2 class="mb-3">📚 EtuBibliothèque</h2>
+  
+  <h3 class="mb-4">
+    Welcome<span *ngIf="loginService.isAuthenticated()">, {{ loginService.getUserName() }}</span>
+  </h3>
+  
+  <div class="mb-3 d-flex justify-content-center gap-2">
+    <ng-container *ngIf="!loginService.isAuthenticated(); else loggedIn">
+      <a class="btn btn-primary" routerLink="/login">Login</a>
+    </ng-container>
 
-<button *ngIf="loginService.isAuthenticated()" (click)="logout()">
-  Logout
-</button>
+    <ng-template #loggedIn>
+      <button class="btn btn-warning" (click)="logout()">Logout</button>
+    </ng-template>
+    
+  </div>
 
-<div>
+  <div>
     <a routerLink="/register">Register a new agent</a>
-</div>
+  </div>
 
-<div>
+  <!-- Manage students link -->
+  <div *ngIf="loginService.isAuthenticated()" class="mt-2">
     <a routerLink="/students">Manage students</a>
+  </div>
+
 </div>

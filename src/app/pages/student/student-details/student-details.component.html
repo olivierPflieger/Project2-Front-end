@@ -1,11 +1,24 @@
-<div>
-    <a routerLink="/students">Back to list</a>
-</div>
+<div class="container mt-4">
 
-<div class="card">
-  <h5 class="card-header">Student Details</h5>
-  <div class="card-body">
-    <p><strong>First Name:</strong> {{ student?.firstName }}</p>
-    <p><strong>Last Name:</strong> {{ student?.lastName }}</p>
+  <!-- Navigation -->
+  <div class="mb-3">
+    <a routerLink="/students">← Back to list</a>
   </div>
+
+  <!-- Header -->
+  <div class="fw-bold border-bottom pb-2 mb-3">
+    Student Details
+  </div>
+
+  <!-- Contenu -->
+  <div class="d-flex mb-2">
+    <span style="width: 30%; font-weight: bold;">First Name</span>
+    <span style="width: 70%;">{{ student?.firstName }}</span>
+  </div>
+
+  <div class="d-flex mb-2">
+    <span style="width: 30%; font-weight: bold;">Last Name</span>
+    <span style="width: 70%;">{{ student?.lastName }}</span>
+  </div>
+
 </div>
