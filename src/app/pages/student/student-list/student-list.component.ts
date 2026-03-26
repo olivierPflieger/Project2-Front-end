@@ -62,8 +62,12 @@ export class StudentListComponent implements OnInit  {
             this.messageType = 'success';
           },
           error: (err) => {
-            this.message = err.statusText + ': ' + err.error;
-            this.messageType = 'error';
+            if (err.error && err.error.message) {
+                this.message = err.statusText + ': ' + err.error.message;
+              } else {
+                this.message = err.statusText + ': ' + err.error;
+              }
+              this.messageType = 'error';            
           }
         });
     }
