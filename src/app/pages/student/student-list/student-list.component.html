@@ -2,14 +2,28 @@
 
   <!-- Navigation -->
   <div class="mb-3 d-flex justify-content-between align-items-center">
-    <a class="btn btn-light" routerLink="/">🏠 Home</a>
+    <a class="btn btn-light" routerLink="/">Home</a>
     <a [routerLink]="['/students/new']">Create a new Student</a>
+  </div>
+  
+  <!-- Message -->
+  <div>
+        @if (message) {
+        <div class="alert" [ngClass]="{
+          'alert-danger': messageType === 'error',
+          'alert-success': messageType === 'success'
+        }">
+          {{ message }}
+        </div>
+      }
   </div>
 
   <!-- Header -->
   <div class="d-flex fw-bold border-bottom pb-2 mb-2">
     <span style="width: 30%;">First Name</span>
     <span style="width: 30%;">Last Name</span>
+    <span style="width: 30%;">Email</span>
+    <span style="width: 30%;">Birthdate</span>
     <span style="width: 40%;">Actions</span>
   </div>
 
@@ -19,11 +33,13 @@
       
       <span style="width: 30%;">{{ student.firstName }}</span>
       <span style="width: 30%;">{{ student.lastName }}</span>
+      <span style="width: 30%;">{{ student.email }}</span>
+      <span style="width: 30%;">{{ student.birthDate }}</span>
       
       <span style="width: 40%; display: flex; gap: 12px;">
         <a [routerLink]="['/students', student.id, 'details']">Details</a>
         <a [routerLink]="['/students', student.id, 'edit']">Edit</a>
-        <a href="#" class="text-danger" (click)="confirmDelete(student.id, $event)">Delete</a>
+        <a href="#" (click)="confirmDelete(student.id, $event)">Delete</a>
       </span>
 
     </li>

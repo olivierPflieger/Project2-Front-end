@@ -20,6 +20,8 @@ export class RegisterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   registerForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
+  message: string | null = null;
+  messageType: 'success' | 'error' | null = null;
 
   constructor(private router: Router) {}
 
@@ -51,12 +53,15 @@ export class RegisterComponent implements OnInit {
     };
     this.userService.register(registerUser)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-      () => {
-        //alert('SUCCESS!! :-)');
-        this.router.navigate(['/login']);
-      },
-    );
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          this.message = err.statusText + ': ' + err.error;
+          this.messageType = 'error';
+        }
+      });    
   }
 
   onReset(): void {

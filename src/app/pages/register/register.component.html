@@ -1,8 +1,24 @@
 <div class="card m-3">
-  <h5 class="card-header">Registration Form</h5>
+  <h5 class="card-header">Register a new agent</h5>
   <div class="card-body">
+    
+    <!-- Message -->
+    <div>
+        @if (message) {
+        <div class="alert" [ngClass]="{
+          'alert-danger': messageType === 'error',
+          'alert-success': messageType === 'success'
+        }">
+          {{ message }}
+        </div>
+      }
+    </div>
+    
+    <!-- Form -->
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      
       <div class="form-row">
+        
         <div class="form-group col-5">
           <label>First Name</label>
           <input
@@ -19,6 +35,7 @@
             </div>
           }
         </div>
+        
         <div class="form-group col-5">
           <label>Last Name</label>
           <input
@@ -36,6 +53,7 @@
           }
         </div>
       </div>
+      
       <div class="form-group">
         <label>Login</label>
         <input

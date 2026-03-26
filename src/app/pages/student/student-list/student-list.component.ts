@@ -15,26 +15,29 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './student-list.component.css'
 })
 export class StudentListComponent implements OnInit  {
-
-  constructor(private router: Router, public loginService: LoginService) { }
-
+  
   private studentService = inject(StudentService);
   students: Student[] = [];
   errorMessage: string | null = null;
   private destroyRef = inject(DestroyRef);
-    
+  message: string | null = null;
+  messageType: 'success' | 'error' | null = null;
+  
+  constructor(private router: Router, public loginService: LoginService) { }
+  
   ngOnInit() {
     this.loadStudents();
   }
   
   loadStudents() {
-    this.studentService.getAll().subscribe({
+    this.studentService.getAll()
+    .subscribe({
       next: (res: HttpResponse<Student[]>) => {
         this.students = res.body || [];
       },
       error: (err) => {
-        if (err.status != 404)
-          this.errorMessage = `Error ${err.status}: ${err.statusText}`;
+        this.message = err.statusText + ': ' + err.error;
+        this.messageType = 'error';
       }
     });
   }
@@ -55,10 +58,12 @@ export class StudentListComponent implements OnInit  {
         .subscribe({
           next: () => {            
             this.students = this.students.filter(s => s.id !== id);
+            this.message = "Student deleted successfully";
+            this.messageType = 'success';
           },
           error: (err) => {
-            console.error('Delete failed', err);
-            alert('Failed to delete student');
+            this.message = err.statusText + ': ' + err.error;
+            this.messageType = 'error';
           }
         });
     }

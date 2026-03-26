@@ -25,13 +25,13 @@ export class StudentFormComponent implements OnInit  {
   studentForm: FormGroup = new FormGroup({});
   private destroyRef = inject(DestroyRef);
   submitted: boolean = false;
-
-  constructor(private router: Router, private route: ActivatedRoute, public loginService: LoginService) { }
-
-  students: Student[] = [];
-  errorMessage: string | null = null;
+  message: string | null = null;
+  messageType: 'success' | 'error' | null = null;
+  students: Student[] = [];  
   isEditMode: boolean = true;
   studentId: number | null = null;
+
+  constructor(private router: Router, private route: ActivatedRoute, public loginService: LoginService) { }
 
   ngOnInit() {
     this.studentId = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,7 +39,9 @@ export class StudentFormComponent implements OnInit  {
     this.studentForm = this.formBuilder.group(
       {
         firstName: ['', Validators.required],
-        lastName: ['', Validators.required]        
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        birthDate: ['', Validators.required]
       },
     );
     
@@ -49,7 +51,9 @@ export class StudentFormComponent implements OnInit  {
         .subscribe(student => {
         this.studentForm.patchValue({
           firstName: student.firstName,
-          lastName: student.lastName
+          lastName: student.lastName,
+          email:student.email,
+          birthDate:student.birthDate
         });
       });
     } else {
@@ -72,16 +76,23 @@ export class StudentFormComponent implements OnInit  {
         const student: Student = {
           id: this.studentId,
           firstName: this.studentForm.get('firstName')?.value,
-          lastName: this.studentForm.get('lastName')?.value,      
+          lastName: this.studentForm.get('lastName')?.value,
+          email: this.studentForm.get('email')?.value,
+          birthDate: this.studentForm.get('birthDate')?.value,
         };
+        
         this.studentService.update(student)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-          () => {
-            alert('student updated');
-            // TODO : router l'utilisateur vers la page de login
+        .subscribe({
+          next: () => {
+            this.message = "Student updated successfully";
+            this.messageType = 'success';
           },
-        );
+          error: (err) => {
+            this.message = err.statusText + ': ' + err.error;
+            this.messageType = 'error';
+          }
+        });
       }
     }
 
@@ -89,12 +100,16 @@ export class StudentFormComponent implements OnInit  {
       const student: Student = this.studentForm.value;
       this.studentService.create(student)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        () => {
-          alert('student created');
-          // TODO : router l'utilisateur vers la page de login
-        },
-      );
+      .subscribe({
+          next: () => {
+            this.message = "Student created successfully";
+            this.messageType = 'success';
+          },
+          error: (err) => {
+            this.message = err.statusText + ': ' + err.error;
+            this.messageType = 'error';
+          }
+        });
     }
   }
 

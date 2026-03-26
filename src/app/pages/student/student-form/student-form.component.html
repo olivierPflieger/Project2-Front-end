@@ -4,9 +4,26 @@
     <h5 class="card-header">
       {{ isEditMode ? 'Edit a student' : 'Create a student' }}
     </h5>
+
     <div class="card-body">
+
+      <!-- Message -->
+      <div>
+        @if (message) {
+        <div class="alert" [ngClass]="{
+          'alert-danger': messageType === 'error',
+          'alert-success': messageType === 'success'
+        }">
+          {{ message }}
+        </div>
+      }
+      </div>
+
+      <!-- Form -->
       <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        
         <div class="form-row">
+          
           <div class="form-group col-5">
             <label>First Name</label>
             <input
@@ -23,6 +40,7 @@
               </div>
             }
           </div>
+
           <div class="form-group col-5">
             <label>Last Name</label>
             <input
@@ -39,6 +57,44 @@
               </div>
             }
           </div>
+        
+          <div class="form-group col-5">
+            <label>Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
+            />
+            @if (submitted && form['email'].errors) {
+              <div class="invalid-feedback">
+                @if (form['email'].errors?.['required']) {
+                  <div>Email is required</div>
+                }
+                @if (form['email'].errors?.['email']) {
+                  <div>Email format is invalid</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group col-5">
+            <label>Birthdate</label>
+            <input
+              type="date"
+              formControlName="birthDate"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form['birthDate'].errors }"
+            />
+            @if (submitted && form['birthDate'].errors) {
+              <div class="invalid-feedback">
+                @if (form['birthDate'].errors?.['required']) {
+                  <div>Birth Date is required</div>
+                }
+              </div>
+            }
+          </div>
+          
         </div>
         
         <div class="text-center">
@@ -52,6 +108,7 @@
           </button>
         </div>
       </form>
+      
     </div>
   </div>
 

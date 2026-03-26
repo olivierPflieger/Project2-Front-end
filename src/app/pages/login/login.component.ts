@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   loginForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
+  message: string | null = null;
+  messageType: 'success' | 'error' | null = null;
 
   constructor(private router: Router) {}
 
@@ -60,8 +62,9 @@ export class LoginComponent implements OnInit {
             alert ('The returned token is empty !');            
           }                    
         },
-        error: (err: HttpErrorResponse) => {
-            alert(`Error ${err.status}: ${err.error}`);
+        error: (err) => {
+            this.message = err.statusText + ': ' + err.error;
+            this.messageType = 'error';
         }
       });
   }

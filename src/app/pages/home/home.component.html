@@ -1,6 +1,6 @@
 <div class="container mt-4 text-center">
 
-  <h2 class="mb-3">📚 EtuBibliothèque</h2>
+  <h2 class="mb-3">EtuBibliothèque</h2>
   
   <h3 class="mb-4">
     Welcome<span *ngIf="loginService.isAuthenticated()">, {{ loginService.getUserName() }}</span>
@@ -21,7 +21,6 @@
     <a routerLink="/register">Register a new agent</a>
   </div>
 
-  <!-- Manage students link -->
   <div *ngIf="loginService.isAuthenticated()" class="mt-2">
     <a routerLink="/students">Manage students</a>
   </div>
