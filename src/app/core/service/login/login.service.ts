@@ -44,4 +44,16 @@ export class LoginService {
     localStorage.removeItem(this.ID_TOKEN);
     localStorage.removeItem(this.USERNAME);
   }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const exp = payload.exp;
+
+    const now = Math.floor(Date.now() / 1000);
+
+    return exp < now;
+  }
 }

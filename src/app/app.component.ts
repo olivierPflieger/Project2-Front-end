@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoginService } from './core/service/login/login.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'etudiant-frontend';
+  private loginService = inject(LoginService);
+
+  ngOnInit() {
+    if (this.loginService.isTokenExpired()) {
+      this.loginService.logout();
+    }
+  }
 }

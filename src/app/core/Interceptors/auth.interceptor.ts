@@ -29,7 +29,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
         loginService.logout() 
         router.navigate(['/login']);
       }
-      return throwError(() => new Error('Session expired'));
+      return throwError(() => error);
     })
   )   
 }
