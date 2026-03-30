@@ -17,15 +17,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class StudentDetailsComponent implements OnInit  {
 
-  constructor(private router: Router, private route: ActivatedRoute, public loginService: LoginService) { }
-
   private studentService = inject(StudentService);
   student: Student | null = null;
   errorMessage: string | null = null;
   private destroyRef = inject(DestroyRef);
   studentId: number | null = null;
-    
-  ngOnInit(): void {
+
+  constructor(private router: Router, private route: ActivatedRoute, public loginService: LoginService) { }
+      
+  ngOnInit() {
     
     this.studentId = Number(this.route.snapshot.paramMap.get('id'));
         
@@ -33,7 +33,6 @@ export class StudentDetailsComponent implements OnInit  {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(student => {
         this.student = student;
-      });
-
+    });
   }
 }

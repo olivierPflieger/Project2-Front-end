@@ -90,9 +90,9 @@ export class StudentFormComponent implements OnInit  {
           },
           error: (err) => {
             if (err.error && err.error.message) {
-                this.message = err.statusText + ': ' + err.error.message;
+                this.message = err.error.message;
               } else {
-                this.message = err.statusText + ': ' + err.error;
+                this.message = err.error;
               }
               this.messageType = 'error';
           }
@@ -111,9 +111,9 @@ export class StudentFormComponent implements OnInit  {
           },
           error: (err) => {
             if (err.error && err.error.message) {
-                this.message = err.statusText + ': ' + err.error.message;
+                this.message = err.error.message;
               } else {
-                this.message = err.statusText + ': ' + err.error;
+                this.message = err.error;
               }
               this.messageType = 'error';
           }

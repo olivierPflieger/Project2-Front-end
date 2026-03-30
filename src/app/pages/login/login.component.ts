@@ -57,14 +57,18 @@ export class LoginComponent implements OnInit {
           if (token) {
             this.loginService.setToken(token);
             this.loginService.setUserName(loginUser.login);
-            this.router.navigate(['']);
+            this.router.navigate(['/']);
           } else {
             alert ('The returned token is empty !');            
           }                    
         },
         error: (err) => {
-            this.message = err.statusText + ': ' + err.error;
-            this.messageType = 'error';
+          if (err.error && err.error.message) {
+            this.message = err.error.message;
+          } else {
+            this.message = err.error;
+          }
+          this.messageType = 'error';
         }
       });
   }
