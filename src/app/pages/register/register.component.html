@@ -22,6 +22,7 @@
         <div class="form-group col-5">
           <label>First Name</label>
           <input
+            data-cy="register-input-firstname"
             type="text"
             formControlName="firstName"
             class="form-control"
@@ -39,6 +40,7 @@
         <div class="form-group col-5">
           <label>Last Name</label>
           <input
+            data-cy="register-input-lastname"
             type="text"
             formControlName="lastName"
             class="form-control"
@@ -57,6 +59,7 @@
       <div class="form-group">
         <label>Login</label>
         <input
+          data-cy="register-input-login"
           type="text"
           formControlName="login"
           class="form-control"
@@ -74,6 +77,7 @@
       <div class="form-group">
         <label>Password</label>
         <input
+          data-cy="register-input-password"
           type="text"
           formControlName="password"
           class="form-control"
@@ -88,7 +92,7 @@
         }
       </div>
       <div class="text-center">
-        <button class="btn btn-primary mr-1">Register</button>
+        <button class="btn btn-primary mr-1" data-cy="register-button-submit">Register</button>
         <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/">
           Cancel
         </button>

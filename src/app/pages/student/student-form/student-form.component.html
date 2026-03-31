@@ -10,7 +10,7 @@
       <!-- Message -->
       <div>
         @if (message) {
-        <div class="alert" [ngClass]="{
+        <div data-cy="studentform-div-alert" class="alert" [ngClass]="{
           'alert-danger': messageType === 'error',
           'alert-success': messageType === 'success'
         }">
@@ -27,6 +27,7 @@
           <div class="form-group col-5">
             <label>First Name</label>
             <input
+              data-cy="studentform-input-firstname"
               type="text"
               formControlName="firstName"
               class="form-control"
@@ -44,6 +45,7 @@
           <div class="form-group col-5">
             <label>Last Name</label>
             <input
+              data-cy="studentform-input-lastname"
               type="text"
               formControlName="lastName"
               class="form-control"
@@ -61,6 +63,7 @@
           <div class="form-group col-5">
             <label>Email</label>
             <input
+              data-cy="studentform-input-email"
               type="email"
               formControlName="email"
               class="form-control"
@@ -81,6 +84,7 @@
           <div class="form-group col-5">
             <label>Birthdate</label>
             <input
+              data-cy="studentform-input-birthdate"
               type="date"
               formControlName="birthDate"
               class="form-control"
@@ -99,11 +103,11 @@
         
         <div class="text-center">
           
-          <button class="btn btn-primary mr-1">
+          <button class="btn btn-primary mr-1" data-cy="studentform-button-submit">
               {{ isEditMode ? 'Update' : 'Create' }}
           </button>
           
-          <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/students">
+          <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/students" data-cy="studentform-button-cancel">
             Cancel
           </button>
         </div>

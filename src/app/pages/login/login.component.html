@@ -8,7 +8,7 @@
         <div class="alert" [ngClass]="{
           'alert-danger': messageType === 'error',
           'alert-success': messageType === 'success'
-        }">
+        }" data-cy="login-div-alert">
           {{ message }}
         </div>
       }
@@ -20,6 +20,7 @@
         <div class="form-group">
           <label>Login</label>
           <input
+            data-cy="login-input-login"
             type="text"
             formControlName="login"
             class="form-control"
@@ -37,6 +38,7 @@
         <div class="form-group">
           <label>Password</label>
           <input
+            data-cy="login-input-password"
             type="text"
             formControlName="password"
             class="form-control"
@@ -51,7 +53,7 @@
           }
         </div>
         <div class="text-center">
-          <button class="btn btn-primary mr-1">Login</button>
+          <button class="btn btn-primary mr-1" data-cy="login-button-submit">Login</button>
           <button class="btn btn-secondary" type="reset" (click)="onReset()" routerLink="/">
             Cancel
           </button>

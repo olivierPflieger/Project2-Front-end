@@ -8,21 +8,21 @@
   
   <div class="mb-3 d-flex justify-content-center gap-2">
     <ng-container *ngIf="!loginService.isAuthenticated(); else loggedIn">
-      <a class="btn btn-primary" routerLink="/login">Login</a>
+      <a class="btn btn-primary" routerLink="/login" data-cy="home-link-login">Login</a>
     </ng-container>
 
     <ng-template #loggedIn>
-      <button class="btn btn-warning" (click)="logout()">Logout</button>
+      <button class="btn btn-warning" (click)="logout()" data-cy="home-button-logout">Logout</button>
     </ng-template>
     
   </div>
 
   <div>
-    <a routerLink="/register">Register a new agent</a>
+    <a routerLink="/register" data-cy="home-link-register">Register a new agent</a>
   </div>
 
   <div *ngIf="loginService.isAuthenticated()" class="mt-2">
-    <a routerLink="/students">Manage students</a>
+    <a routerLink="/students" data-cy="home-link-students">Manage students</a>
   </div>
 
 </div>

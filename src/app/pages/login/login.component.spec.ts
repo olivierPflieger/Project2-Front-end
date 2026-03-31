@@ -69,68 +69,68 @@ describe('LoginComponent Unit Tests Suite', () => {
 
   it('should return error on failed login', () => {
 
-        const formValue: Login = { login: 'jdoe', password: 'pass' };
-        component.loginForm.setValue(formValue);        
-        const errorBody = { message: 'Login or password incorrect' };
-
-        loginServiceMock.login.mockReturnValue(throwError(() => ({
-            status: 400,
-            statusText: 'Bad Request',
-            error: errorBody
-        })));
-        
-        component.onSubmit();
-
-        expect(component.message).toBe('Login or password incorrect');
-        expect(component.messageType).toBe('error');
-    });
-
-    it('should not submit when form is completely empty', () => {
-      component.loginForm.setValue({
-        login: '',
-        password: ''
-      });
-
-      component.onSubmit();
-
-      expect(loginServiceMock.login).not.toHaveBeenCalled();
-      expect(routerMock.navigate).not.toHaveBeenCalled();
-    });
-
-    it.each([    
-      ['login'],
-      ['password']
-    ])('should not submit when %s is empty', (field) => {
-      const formValue: any = {       
-        login: 'jdoe',
-        password: 'pass'
-      };
-      
-      formValue[field] = '';
-
-      component.loginForm.setValue(formValue);
-
-      component.onSubmit();
-
-      expect(loginServiceMock.login).not.toHaveBeenCalled();
-      expect(routerMock.navigate).not.toHaveBeenCalled();
-    });
-
-    it('should reset the form and set submitted to false', () => {
-    
-      component.submitted = true;
-  
       const formValue: Login = { login: 'jdoe', password: 'pass' };
-      component.loginForm.setValue(formValue);
+      component.loginForm.setValue(formValue);        
+      const errorBody = { message: 'Login or password incorrect' };
+
+      loginServiceMock.login.mockReturnValue(throwError(() => ({
+          status: 400,
+          statusText: 'Bad Request',
+          error: errorBody
+      })));
       
-      component.onReset();
-  
-      expect(component.submitted).toBe(false);
-  
-      expect(component.loginForm.value).toEqual({
-        login: null,
-        password: null
-      });
+      component.onSubmit();
+
+      expect(component.message).toBe('Login or password incorrect');
+      expect(component.messageType).toBe('error');
+  });
+
+  it('should not submit when form is completely empty', () => {
+    component.loginForm.setValue({
+      login: '',
+      password: ''
     });
+
+    component.onSubmit();
+
+    expect(loginServiceMock.login).not.toHaveBeenCalled();
+    expect(routerMock.navigate).not.toHaveBeenCalled();
+  });
+
+  it.each([    
+    ['login'],
+    ['password']
+  ])('should not submit when %s is empty', (field) => {
+    const formValue: any = {       
+      login: 'jdoe',
+      password: 'pass'
+    };
+    
+    formValue[field] = '';
+
+    component.loginForm.setValue(formValue);
+
+    component.onSubmit();
+
+    expect(loginServiceMock.login).not.toHaveBeenCalled();
+    expect(routerMock.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should reset the form and set submitted to false', () => {
+  
+    component.submitted = true;
+
+    const formValue: Login = { login: 'jdoe', password: 'pass' };
+    component.loginForm.setValue(formValue);
+    
+    component.onReset();
+
+    expect(component.submitted).toBe(false);
+
+    expect(component.loginForm.value).toEqual({
+      login: null,
+      password: null
+    });
+  });
     
 });
