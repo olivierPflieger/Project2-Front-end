@@ -70,7 +70,7 @@
               [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
             />
             @if (submitted && form['email'].errors) {
-              <div class="invalid-feedback">
+              <div class="invalid-feedback" data-cy="studentform-div-invalidfeeback">
                 @if (form['email'].errors?.['required']) {
                   <div>Email is required</div>
                 }

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 describe('Register and Login tests', () => {
    
-  it('Register new agent then login then logout', () => {
+  it('Register new agent then login then logout should work', () => {
     
     const url = Cypress.config('baseUrl');
     cy.log('url : ' + url)
@@ -40,7 +40,7 @@ describe('Register and Login tests', () => {
     cy.get('[data-cy="home-link-login"]').should('have.attr', 'href', '/login')
   })
   
-  it('Login unknown user should display an error', () => {
+  it('Login unknown agent should display an error', () => {
     
     const url = Cypress.config('baseUrl');
     cy.log('url : ' + url)

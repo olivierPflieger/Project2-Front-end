@@ -1,6 +1,6 @@
 describe('tests', () => {
    
-  it('Navigate to home page', () => {
+  it('Navigate to home page should work', () => {
     
     cy.visit('/')
     

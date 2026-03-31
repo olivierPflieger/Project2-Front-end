@@ -1,8 +1,127 @@
 import { faker } from '@faker-js/faker'
 
-describe('Register and login then Create student then edit then delete it', () => {
+describe('Manage Students', () => {
    
-  it('passes', () => {
+  it('Login then create student should work', () => {
+    
+    const url = Cypress.config('baseUrl');
+    cy.log('url : ' + url)
+        
+    // fake datas
+    const agentFirstName = faker.person.firstName()
+    const agentLastName = faker.person.lastName()
+    const agentLogin = faker.internet.email()
+    const agentPassword = faker.internet.password()
+    cy.log('fake agent : ' + agentFirstName + ', ' + agentLastName + ', ' + agentLogin + ', ' + agentPassword)
+
+    const studentFirstName = faker.person.firstName()
+    const studentLastName = faker.person.lastName()
+    const studentEmail = faker.internet.email()
+    const studentBirthdate = faker.date.past()
+    const formattedDate = studentBirthdate.toISOString().split('T')[0]    
+    cy.log('fake student : ' + studentFirstName + ', ' + studentLastName + ', ' + studentEmail + ', ' + formattedDate)
+
+    // create agent
+    cy.visit('/register')
+    cy.get('[data-cy="register-input-firstname"]').type(agentFirstName)
+    cy.get('[data-cy="register-input-lastname"]').type(agentLastName)
+    cy.get('[data-cy="register-input-login"]').type(agentLogin)
+    cy.get('[data-cy="register-input-password"]').type(agentPassword)
+    cy.get('[data-cy="register-button-submit"]').click()
+
+    // assert correctly redirected to login page
+    cy.url().should('eq', `${url}/login`)
+
+    // login
+    cy.get('[data-cy="login-input-login"]').type(agentLogin)
+    cy.get('[data-cy="login-input-password"]').type(agentPassword)
+    cy.get('[data-cy="login-button-submit"]').click()
+    
+    // assert correctly redirected to home page
+    cy.url().should('eq', `${url}/`)
+
+    // create student
+    cy.get('[data-cy="home-link-students"]').click()
+    cy.get('[data-cy="studentslist-link-create"]').click()
+
+    cy.get('[data-cy="studentform-input-firstname"]').type(studentFirstName)
+    cy.get('[data-cy="studentform-input-lastname"]').type(studentLastName)
+    cy.get('[data-cy="studentform-input-email"]').type(studentEmail)
+    cy.get('[data-cy="studentform-input-birthdate"]').type(formattedDate)
+    cy.get('[data-cy="studentform-button-submit"]').click()    
+    
+    // assert created
+    cy.get('[data-cy="studentform-div-alert"]').should('contain.text', 'Student created successfully')
+    
+    // Return to students list
+    cy.get('[data-cy="studentform-button-cancel"]').click()
+    cy.url().should('eq', `${url}/students`)
+
+    // Get the student updated in the list, then click on delete
+    cy.get('[data-cy="studentlist-ul-students"] > li')
+      .contains(studentFirstName)
+      .parent()
+      .find('[data-cy="studentlist-a-delete"]')
+      .click()
+      
+    // assert
+    cy.get('[data-cy="studentlist-div-alert"]').should('contain.text', 'Student deleted successfully')
+  })
+
+  it('Login then create wrong student should display an error', () => {
+    
+    const url = Cypress.config('baseUrl');
+    cy.log('url : ' + url)
+        
+    // fake datas
+    const agentFirstName = faker.person.firstName()
+    const agentLastName = faker.person.lastName()
+    const agentLogin = faker.internet.email()
+    const agentPassword = faker.internet.password()
+    cy.log('fake agent : ' + agentFirstName + ', ' + agentLastName + ', ' + agentLogin + ', ' + agentPassword)
+
+    const studentFirstName = faker.person.firstName()
+    const studentLastName = faker.person.lastName()
+    const studentEmail = "wrongEmail"
+    const studentBirthdate = faker.date.past()
+    const formattedDate = studentBirthdate.toISOString().split('T')[0]    
+    cy.log('fake student : ' + studentFirstName + ', ' + studentLastName + ', ' + studentEmail + ', ' + formattedDate)
+
+    // create agent
+    cy.visit('/register')
+    cy.get('[data-cy="register-input-firstname"]').type(agentFirstName)
+    cy.get('[data-cy="register-input-lastname"]').type(agentLastName)
+    cy.get('[data-cy="register-input-login"]').type(agentLogin)
+    cy.get('[data-cy="register-input-password"]').type(agentPassword)
+    cy.get('[data-cy="register-button-submit"]').click()
+
+    // assert correctly redirected to login page
+    cy.url().should('eq', `${url}/login`)
+
+    // login
+    cy.get('[data-cy="login-input-login"]').type(agentLogin)
+    cy.get('[data-cy="login-input-password"]').type(agentPassword)
+    cy.get('[data-cy="login-button-submit"]').click()
+    
+    // assert correctly redirected to home page
+    cy.url().should('eq', `${url}/`)
+
+    // create student
+    cy.get('[data-cy="home-link-students"]').click()
+    cy.get('[data-cy="studentslist-link-create"]').click()
+
+    cy.get('[data-cy="studentform-input-firstname"]').type(studentFirstName)
+    cy.get('[data-cy="studentform-input-lastname"]').type(studentLastName)
+    cy.get('[data-cy="studentform-input-email"]').type(studentEmail)
+    cy.get('[data-cy="studentform-input-birthdate"]').type(formattedDate)
+    cy.get('[data-cy="studentform-button-submit"]').click()    
+    
+    // assert
+    cy.get('[data-cy="studentform-div-invalidfeeback"]').should('contain.text', 'Email format is invalid')
+        
+  })
+
+  it('Register and login then create student then edit then delete it should work', () => {
     
     const url = Cypress.config('baseUrl');
     cy.log('url : ' + url)
@@ -94,4 +213,5 @@ describe('Register and login then Create student then edit then delete it', () =
     // assert
     cy.get('[data-cy="studentlist-div-alert"]').should('contain.text', 'Student deleted successfully')
   })
+
 })

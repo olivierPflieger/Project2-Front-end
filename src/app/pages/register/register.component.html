@@ -8,7 +8,7 @@
         <div class="alert" [ngClass]="{
           'alert-danger': messageType === 'error',
           'alert-success': messageType === 'success'
-        }">
+        }" data-cy="register-div-alert">
           {{ message }}
         </div>
       }
