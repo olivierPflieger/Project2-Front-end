@@ -4,11 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:coverage": "ng run etudiant-frontend:serve-coverage",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
     "cy:run": "cypress run",
+    "jest": "npm run test -- --coverage",
+    "cy:coverage": "start-server-and-test start:coverage http://localhost:4201 \"cypress run --config baseUrl=http://localhost:4201\"",
+    "coverage:report": "nyc report --reporter=html --reporter=text-summary",
+    "coverage:clean": "powershell -Command \"if (Test-Path '.nyc_output') { Remove-Item -Recurse -Force '.nyc_output' }; if (Test-Path 'coverage\\cypress') { Remove-Item -Recurse -Force 'coverage\\cypress' }\"",
     "e2e": "npx cypress run"
   },
   "private": true,
@@ -27,9 +32,12 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^19.0.0",
+    "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
     "@angular-devkit/build-angular": "^19.0.7",
     "@angular/cli": "^19.2.16",
     "@angular/compiler-cli": "^19.2.0",
+    "@cypress/code-coverage": "^3.14.7",
     "@cypress/schematic": "^4.3.0",
     "@faker-js/faker": "^10.4.0",
     "@testing-library/dom": "^10.4.1",
@@ -41,7 +49,23 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-preset-angular": "^14.5.1",
+    "nyc": "^17.1.0",
     "start-server-and-test": "^3.0.0",
     "typescript": "~5.7.2"
+  },
+  "nyc": {
+    "reporter": [
+      "html",
+      "text-summary"
+    ],
+    "report-dir": "coverage/cypress",
+    "temp-dir": ".nyc_output",
+    "all": false,
+    "exclude": [
+      "**/*.spec.ts",
+      "**/*.cy.ts",
+      "cypress/**",
+      "node_modules/**"
+    ]
   }
 }

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 describe('Manage Students', () => {
    
-  it('Login then create student should work', () => {
+  it('Register and Login then create student should work', () => {
     
     const url = Cypress.config('baseUrl');
     cy.log('url : ' + url)
@@ -68,7 +68,7 @@ describe('Manage Students', () => {
     cy.get('[data-cy="studentlist-div-alert"]').should('contain.text', 'Student deleted successfully')
   })
 
-  it('Login then create wrong student should display an error', () => {
+  it('Register and Login then create wrong student should display an error', () => {
     
     const url = Cypress.config('baseUrl');
     cy.log('url : ' + url)
@@ -214,4 +214,85 @@ describe('Manage Students', () => {
     cy.get('[data-cy="studentlist-div-alert"]').should('contain.text', 'Student deleted successfully')
   })
 
+  it('Register and login then create student then display details then delete it should work', () => {
+    
+    const url = Cypress.config('baseUrl');
+    cy.log('url : ' + url)
+        
+    // fake datas
+    const agentFirstName = faker.person.firstName()
+    const agentLastName = faker.person.lastName()
+    const agentLogin = faker.internet.email()
+    const agentPassword = faker.internet.password()
+    cy.log('fake agent : ' + agentFirstName + ', ' + agentLastName + ', ' + agentLogin + ', ' + agentPassword)
+
+    const studentFirstName = faker.person.firstName()
+    const studentLastName = faker.person.lastName()
+    const studentEmail = faker.internet.email()
+    const studentBirthdate = faker.date.past()
+    const formattedDate = studentBirthdate.toISOString().split('T')[0]    
+    cy.log('fake student : ' + studentFirstName + ', ' + studentLastName + ', ' + studentEmail + ', ' + formattedDate)
+
+    // create agent
+    cy.visit('/register')
+    cy.get('[data-cy="register-input-firstname"]').type(agentFirstName)
+    cy.get('[data-cy="register-input-lastname"]').type(agentLastName)
+    cy.get('[data-cy="register-input-login"]').type(agentLogin)
+    cy.get('[data-cy="register-input-password"]').type(agentPassword)
+    cy.get('[data-cy="register-button-submit"]').click()
+
+    // assert correctly redirected to login page
+    cy.url().should('eq', `${url}/login`)
+
+    // login
+    cy.get('[data-cy="login-input-login"]').type(agentLogin)
+    cy.get('[data-cy="login-input-password"]').type(agentPassword)
+    cy.get('[data-cy="login-button-submit"]').click()
+    
+    // assert correctly redirected to home page
+    cy.url().should('eq', `${url}/`)
+
+    // create student
+    cy.get('[data-cy="home-link-students"]').click()
+    cy.get('[data-cy="studentslist-link-create"]').click()
+
+    cy.get('[data-cy="studentform-input-firstname"]').type(studentFirstName)
+    cy.get('[data-cy="studentform-input-lastname"]').type(studentLastName)
+    cy.get('[data-cy="studentform-input-email"]').type(studentEmail)
+    cy.get('[data-cy="studentform-input-birthdate"]').type(formattedDate)
+    cy.get('[data-cy="studentform-button-submit"]').click()    
+    
+    // assert created
+    cy.get('[data-cy="studentform-div-alert"]').should('contain.text', 'Student created successfully')
+
+    // Return to students list
+    cy.get('[data-cy="studentform-button-cancel"]').click()
+    cy.url().should('eq', `${url}/students`)
+
+    // Get the new student in the list, then click on Details
+    cy.get('[data-cy="studentlist-ul-students"] > li')
+      .contains(studentEmail)
+      .parent()
+      .find('[data-cy="studentlist-a-details"]')
+      .click()
+          
+    // assert
+    cy.get('[data-cy="studentdetails-div-firstname"]').should('contain.text', studentFirstName)
+    cy.get('[data-cy="studentdetails-div-lastname"]').should('contain.text', studentLastName)
+    cy.get('[data-cy="studentdetails-div-email"]').should('contain.text', studentEmail)    
+
+    // Return to students list
+    cy.get('[data-cy="studentdetails-a-backtolist"]').click()
+    cy.url().should('eq', `${url}/students`)
+
+    // Get the student updated in the list, then click on delete
+    cy.get('[data-cy="studentlist-ul-students"] > li')
+      .contains(studentFirstName)
+      .parent()
+      .find('[data-cy="studentlist-a-delete"]')
+      .click()
+      
+    // assert
+    cy.get('[data-cy="studentlist-div-alert"]').should('contain.text', 'Student deleted successfully')
+  })
 })

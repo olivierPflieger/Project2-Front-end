@@ -42,9 +42,11 @@ export class StudentListComponent implements OnInit  {
     });
   }
   
+  /*
   editStudent(id: number) {
     this.router.navigate(['/students-form', id, 'edit']);
   }
+  */
   
   confirmDelete(id: number, event: Event) {
     

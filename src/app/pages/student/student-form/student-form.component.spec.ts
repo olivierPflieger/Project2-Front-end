@@ -143,6 +143,40 @@ describe('StudentFormComponent Unit Tests Suite', () => {
     expect(component.message).toBe('User with email John@test.com already exists');
     expect(component.messageType).toBe('error');
   });
+
+  it('should display error when update fails', () => {
+    component.isEditMode = true;
+    component.studentId = 999;
+
+    const formValue: Student = {
+      id: 999,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'John@test.com',
+      birthDate: '2000-02-02'
+    };
+
+    component.studentForm.setValue({
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      email: formValue.email,
+      birthDate: formValue.birthDate
+    });
+
+    studentServiceMock.update.mockReturnValue(
+      throwError(() => ({
+        status: 404,
+        statusText: 'Not Found',
+        error: { message: 'Student not found' }
+      }))
+    );
+
+    component.onSubmit();
+
+    expect(studentServiceMock.update).toHaveBeenCalledWith(formValue);
+    expect(component.message).toBe('Student not found');
+    expect(component.messageType).toBe('error');
+  });
   
   it('should not submit when form is completely empty', () => {
     component.studentForm.setValue({
