@@ -53,6 +53,10 @@ npm run jest
 
 ## Running end-to-end tests
 
+NOTE : Ensure both backEnd and frontEnd are running
+to run backEnd, check README.md in BackEnd solution
+to run frontEnd, run ng serve
+
 For end-to-end (e2e) testing without coverage, run:
 
 ```bash
@@ -60,9 +64,6 @@ npm run e2e
 ```
 
 For end-to-end (e2e) testing with coverage, run:
-NOTE : Ensure both backEnd and frontEnd are running
-to run backEnd, check README.md in BackEnd solution
-to run frontEnd, run ng serve
 
 ```bash
 npm run cy:coverage
@@ -72,7 +73,6 @@ Additionally, if you need to clean the coverage report, run :
 
 ```bash
 npm run coverage:clean
-npm run cy:coverage
 ```
 
 In order to open Cypress console, run : 
