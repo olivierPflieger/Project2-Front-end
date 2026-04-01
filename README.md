@@ -54,6 +54,9 @@ npm run e2e
 ```
 
 For end-to-end (e2e) testing with coverage, run:
+NOTE : Ensure both backEnd and frontEnd are running
+to run backEnd, check README.md in BackEnd solution
+to run frontEnd, run ng serve
 
 ```bash
 npm run cy:coverage
